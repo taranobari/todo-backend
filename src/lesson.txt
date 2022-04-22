@@ -1,0 +1,34 @@
+api requests
+
+food = data
+kitchen = backend
+user = customers
+
+api = waiters
+
+
+fetch
+httpRequest
+axios => library
+
+Json.Strigify() => string
+Json.parse() => real data
+
+async function getData(){
+  const response = await fetch("http://localhost:3000/todos",{
+    method: "PUT",
+    body : JSON.strigify(data)
+  });
+  const realData = Json.parse(response);
+  console.log(response)
+  console.log("hassan")
+}
+
+CRUD => Create , Read , Update , Delete
+
+GET => only read
+POST => create data 
+DELETE => delete data
+PATCH => update a single item
+PUT => replace data
+
