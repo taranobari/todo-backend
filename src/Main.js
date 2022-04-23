@@ -39,16 +39,29 @@ const Main=()=>{
         <div>
            <input type='text' value={value} onChange={(e)=>setValue(e.target.value)} />
            <button onClick={()=>handleClick()} >add</button>
-           <Card value={value} names={names} getNames={getNames}/>
+           <Card value={value} names={names} getNames={getNames} setNames={setNames}/>
         </div>
     )
 }
-const Card =({value,names,getNames})=>{
+const Card =({value,names,getNames,setNames})=>{
 
     async function deleteData(id){
        await axios.delete(`http://localhost:8080/todos/${id}`)
         getNames()
     }
+
+    async function editData(id){
+        let  x = window.prompt()
+        await axios.put(`http://localhost:8080/todos/${id}`,{
+            name : x,
+        }).then(res=>{
+            setNames([...names,{
+                name : x,
+            }])
+        })
+         getNames()
+     }
+ 
 
     return(
         <div>
@@ -56,6 +69,7 @@ const Card =({value,names,getNames})=>{
                 names.map((el,index)=>{
                     return <div key={index}>{el.name} {index}
                       <button onClick={()=>deleteData(el.id)} >delete</button>
+                      <button onClick={()=>editData(el.id)} >edit</button>
                     </div>
                 })
             }
