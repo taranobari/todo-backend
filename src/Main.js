@@ -44,6 +44,8 @@ const Main=()=>{
     )
 }
 const Card =({value,names,getNames,setNames})=>{
+ const [id,setId]=useState(false)
+ 
 
     async function deleteData(id){
        await axios.delete(`http://localhost:8080/todos/${id}`)
@@ -61,17 +63,32 @@ const Card =({value,names,getNames,setNames})=>{
         })
          getNames()
      }
- 
 
-    return(
-        <div>
+     async function showId(id){
+         const response= await axios.get(`http://localhost:8080/todos/${id}`,{
+             id: id,
+            })
+            console.log('id',response.data);
+            setId(true)
+            getNames()
+        }
+        
+        
+        return(
+            <div>
             {
                 names.map((el,index)=>{
-                    return <div key={index}>{el.name} {index}
+                    return (<div key={index}>{el.name} {index}
                       <button onClick={()=>deleteData(el.id)} >delete</button>
                       <button onClick={()=>editData(el.id)} >edit</button>
-                    </div>
+                      <button onClick={()=>showId(el.id)} >show id</button>
+                      {id ? <div>{el.id}</div> :null}
+                    </div>)
                 })
+                // console.log(names,"names")
+                // names?.map((el,index)=>{
+                //     return <div>{el.name}</div>
+                // })
             }
         </div>
     )
@@ -80,12 +97,3 @@ const Card =({value,names,getNames,setNames})=>{
 export default Main
 
 
-// 2 => number
-// "tara" => string
-// ["hasan"] => array
-// {
-//     name : "mahdi"  => object 
-// }
-// {
-//     "name" : "mahdi"
-// }
